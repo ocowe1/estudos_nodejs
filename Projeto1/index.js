@@ -1,31 +1,35 @@
 const express = require('express');
 const app = express();
+const connection = require('./database/database');
+const perguntaModel = require('./database/Pergunta');
+
+connection
+    .authenticate()
+    .then(() => {
+        console.log('conexão feita com o banco de dados');
+    })
+    .catch((mensagemErro) => {
+        console.log(mensagemErro);
+    })
 
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 app.get('/', (req,res) => {
-    res.send(('Bem vindo a index'));
+    res.render('index', { tituloHead: 'Guia de Perguntas'});
 });
 
-app.get('/:nome/:linguagem', (req, res) => {
-    var nome = req.params.nome;
-    var linguagem = req.params.linguagem;
-    var exibirMensagem = false;
-
-    var produtos = [
-        {nome: 'Doritos', preco: 3.14},
-        {nome: 'Coca-Cola', preco: 5},
-        {nome: 'Leite', preco: 1.45}
-    ]
-
-    res.render('index', {
-        nome: nome,
-        linguagem: linguagem,
-        empresa: 'UNIMES',
-        inscritos: 1000,
-        mensagem: exibirMensagem
-    });
+app.get('/perguntar', (req,res) => {
+    res.render('perguntar', { tituloHead: 'perguntar'});
 });
+
+app.post('/salvar', (req,res) => {
+    var titulo = req.body.titulo;
+    var pergunta = req.body.pergunta;
+    res.send('Pergunta Salva');
+})
 
 app.listen(4000, () => {
     console.log("Aplicação rodando.");

@@ -1,0 +1,16 @@
+body{
+    background-color: #eceff1;
+}
+
+#form-pergunta{
+    margin-top: 5vh;
+}
+
+#navbar-titulo{
+    text-decoration: none;
+    color: white;
+}
+
+#index-saudacao{
+    padding-top: 5vh;
+}
