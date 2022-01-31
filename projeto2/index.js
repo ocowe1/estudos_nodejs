@@ -1,15 +1,18 @@
-const express = require("express")
-const app = express()
-const connection = require("./database/connection")
-
+const express = require("express");
+const app = express();
+const connection = require("./config/connection");
+const Article = require("./articles/Articles");
+const Category = require("./categories/Category");
+const categoriesController = require("./categories/categoryController");
+const articlesController = require("./articles/articlesController");
 // View Engine
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 
 // Static Files
-app.use(express.static('public'))
+app.use(express.static('public'));
 
-app.use(express.urlencoded({extended: false}))
-app.use(express.json())
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 // Database
 connection
@@ -20,10 +23,13 @@ connection
         console.log(error)
     })
 
-app.get("/", (req,res) => {
+app.get('/', (req,res) => {
     res.render("index")
 })
 
+app.use("/", categoriesController);
+app.use("/", articlesController);
+
 app.listen(8000, () => {
     console.log('o servidor está rodando')
-})
+});
