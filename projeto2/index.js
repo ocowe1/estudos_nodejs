@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 const connection = require("./config/connection");
-const Article = require("./articles/Articles");
-const Category = require("./categories/Category");
-const categoriesController = require("./categories/categoryController");
-const articlesController = require("./articles/articlesController");
+const Article = require("./app/articles/Articles");
+const Category = require("./app/categories/Category");
+const categoriesController = require("./app/categories/categoryController");
+const articlesController = require("./app/articles/articlesController");
 // View Engine
 app.set('view engine', 'ejs');
 

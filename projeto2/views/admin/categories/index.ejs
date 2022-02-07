@@ -24,8 +24,11 @@
                         <th><%- category.title %></th>
                         <th><%- category.slug %></th>
                         <th>
-                            <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                            <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                            <form id="delete-form" method="POST" action="/categories/delete" style="display: inline" onsubmit="deleteVerify(event, this)">
+                                <input type="hidden" name="id" id="id" value="<%= category.id %>">
+                                <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
+                            </form>
                         </th>
                     </tr>
                 <% })%>
@@ -36,3 +39,14 @@
 </div>
 
 <%- include('../../partials/footer.ejs') %>
+<script>
+    function deleteVerify(event, form)
+    {
+        event.preventDefault()
+        var decision = confirm("Você quer deletar está categoria?")
+        if(decision)
+        {
+            form.submit()
+        }
+    }
+</script>
