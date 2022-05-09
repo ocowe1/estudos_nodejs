@@ -20,15 +20,40 @@ connection
     .then(() => {
         console.log('conectado ao banco de dados')
     }).catch((error) => {
-        console.log(error)
-    })
-
-app.get('/', (req,res) => {
-    res.render("index")
+    console.log(error)
 })
 
 app.use("/", categoriesController);
 app.use("/", articlesController);
+
+app.get('/', (req, res) => {
+    Article.findAll({
+        order: [
+            ['id', 'DESC']
+        ]
+    }).then(articles => {
+        Category.findAll().then(categories => {
+            res.render("index", {articles: articles, categories: categories})
+        })
+    })
+})
+
+app.get("/:slug", (req, res) => {
+    var slug = req.params.slug
+    Article.findOne({
+        where: {
+            slug: slug
+        }
+    }).then(article => {
+        if (article !== undefined) {
+            Category.findAll().then(categories => {
+                res.render("articles", {article: article, categories: categories })
+            })
+        } else {
+            res.redirect("/")
+        }
+    })
+})
 
 app.listen(8000, () => {
     console.log('o servidor está rodando')

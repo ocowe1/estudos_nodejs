@@ -4,23 +4,14 @@
 <div class="container">
     <br>
 
-    <div class="container">
-        <h2 class="display-4">Welcome</h2>
-        <p class="lead">This is a simple blog for studies with NodeJS</p>
-    </div>
-    <hr class="my-4">
-    <% articles.forEach(article => { %>
     <div class="card">
         <div class="card-header">
             <h3><%= article.title %></h3>
         </div>
         <div class="card-body">
-            <a href="/<%= article.slug %>" class="btn btn-primary">View Article</a>
+            <%- article.body %>
         </div>
     </div>
-    <hr>
-    <% }) %>
-
 </div>
 
 <%- include('partials/footer.ejs') %>

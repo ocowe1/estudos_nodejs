@@ -1,0 +1,56 @@
+<%- include('../../partials/header.ejs') %>
+<%- include('../../partials/navbar.ejs') %>
+
+<div class="container">
+    <br>
+    <a class="btn btn-success" href="/admin/articles/new">Articles Registry</a>
+    <hr>
+    <div class="card">
+        <div class="card-header">
+            <h2>Articles</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Slug</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% articles.forEach(article => {  %>
+                    <tr>
+                        <th><%- article.id %></th>
+                        <th><%= article.title %></th>
+                        <th><%- article.slug %></th>
+                        <th><%= article.category.title %></th>
+                        <th>
+                            <a href="/admin/categories/edit/<%= article.id %>" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                            <form id="delete-form" method="POST" action="/articles/delete" style="display: inline" onsubmit="deleteVerify(event, this)">
+                                <input type="hidden" name="id" id="id" value="<%= article.id %>">
+                                <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </th>
+                    </tr>
+                <% })%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+<script>
+    function deleteVerify(event, form)
+    {
+        event.preventDefault()
+        const decision = confirm("Você quer deletar este artigo?")
+        if(decision)
+        {
+            form.submit()
+        }
+    }
+</script>
